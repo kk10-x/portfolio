@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
+/* Manual theme toggle: dark styles apply under a .dark class on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+:root.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -12,15 +20,72 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Visible keyboard focus in the accent color */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #d946ef;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Animated gradient blobs behind the content */
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  opacity: 0.45;
+  will-change: transform;
+}
+
+.dark .blob {
+  opacity: 0.3;
+}
+
+@keyframes blob-float-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, -30px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+@keyframes blob-float-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-30px, 30px) scale(1.05); }
+  66% { transform: translate(30px, -20px) scale(0.9); }
+}
+
+.blob-a {
+  animation: blob-float-a 18s ease-in-out infinite;
+}
+
+.blob-b {
+  animation: blob-float-b 22s ease-in-out infinite;
+}
+
+/* Gradient text with a slow shimmer */
+.gradient-text {
+  background: linear-gradient(90deg, #6366f1, #d946ef, #06b6d4, #6366f1);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-shift 8s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob,
+  .gradient-text {
+    animation: none !important;
+  }
 }

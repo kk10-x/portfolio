@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
 
-## Getting Started
+Personal portfolio site for Khrithik S Anand — pulls project cards live from GitHub instead of a hardcoded list, so it stays current as repos are added.
 
-First, run the development server:
+## Tech stack
+
+- Next.js 16 (App Router) + React 19 + TypeScript
+- Tailwind CSS 4
+- Framer Motion (scroll-triggered entrances, 3D card tilt, spotlight hover)
+- GitHub REST API (server-side fetch, revalidated hourly)
+- Deployed on Vercel
+
+## Architecture
+
+The site is a single static-ish page split into a few server components:
+
+- `src/config/site.ts` — all personal info (name, bio, skills, GitHub handle) in one place, plus curation knobs: `excludedRepos`, a `minPushedAt` cutoff date (hides old college repos), and an optional `featuredRepos` list to pin specific projects to the top.
+- `src/lib/github.ts` — fetches the GitHub user's repos server-side via `fetch(..., { next: { revalidate: 3600 } })`, filters out forks/excluded/stale repos, and sorts by stars (with any featured repos pinned first).
+- `src/components/` — `Hero`, `Experience`, `Skills`, `Projects`, `Footer` are server components; `ProjectCard` (Framer Motion entrances, cursor-driven 3D tilt, spotlight hover) and `ParticleField` (interactive canvas particle background) are the client components.
+- `src/app/icon.svg` + `src/app/opengraph-image.tsx` — gradient favicon and a generated OG image so shared links render a proper preview card.
+
+No backend or database — the GitHub API is the only external dependency, and Next.js's built-in ISR cache keeps it from being hit on every request. This was simpler than hand-maintaining a projects JSON file and keeps the site honest: what's shown is what's actually on GitHub.
+
+## Key features
+
+- Live project feed from the GitHub API — new repos show up automatically, no manual edits
+- Optional curation via `excludedRepos` / `featuredRepos` in `site.ts` if you want to hide noise or pin specific projects later
+- Dark mode support via `prefers-color-scheme`
+- Zero backend — fully static-renderable aside from the revalidated GitHub fetch
+
+## Setup / run
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To point this at a different GitHub account, edit `github` in `src/config/site.ts`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Optionally set `GITHUB_TOKEN` (see `.env.example`) to raise the GitHub API rate limit from 60 to 5000 requests/hour — not required for normal use thanks to the hourly cache.
 
-## Learn More
+## Deploy
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Push to GitHub, then import the repo on [Vercel](https://vercel.com/new) — no config needed, it's a standard Next.js app.
