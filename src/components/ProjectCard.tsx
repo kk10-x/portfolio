@@ -50,7 +50,7 @@ export function ProjectCard({ repo, index }: { repo: Repo; index: number }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformPerspective: 800 }}
-      className="group relative block overflow-hidden rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-white/60 dark:bg-neutral-900/60 backdrop-blur-md p-5 shadow-sm hover:shadow-xl hover:shadow-indigo-500/10 transition-shadow duration-300"
+      className="group relative block overflow-hidden rounded-2xl border border-indigo-100 dark:border-neutral-800 bg-white/70 dark:bg-neutral-900/60 backdrop-blur-md p-5 shadow-md shadow-indigo-500/5 hover:shadow-xl hover:shadow-fuchsia-500/15 dark:shadow-none transition-shadow duration-300"
     >
       {/* Mouse-tracking spotlight */}
       <div
@@ -61,8 +61,8 @@ export function ProjectCard({ repo, index }: { repo: Repo; index: number }) {
         }}
       />
 
-      {/* Top accent line */}
-      <div className="absolute top-0 left-5 right-5 h-px bg-gradient-to-r from-transparent via-fuchsia-400/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      {/* Top accent line — a whisper of it always shows in light mode, full on hover */}
+      <div className="absolute top-0 left-5 right-5 h-px bg-gradient-to-r from-transparent via-fuchsia-400/60 to-transparent opacity-30 dark:opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
       <div className="relative">
         <div className="flex items-start justify-between gap-3">

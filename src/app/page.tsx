@@ -1,9 +1,10 @@
 import { Hero } from "@/components/Hero";
-import { Skills } from "@/components/Skills";
 import { Experience } from "@/components/Experience";
 import { Projects } from "@/components/Projects";
 import { Footer } from "@/components/Footer";
 import { ParticleField } from "@/components/ParticleField";
+import { ScrollFade } from "@/components/ScrollFade";
+import { SlideIn } from "@/components/SlideIn";
 
 export default function Home() {
   return (
@@ -23,10 +24,15 @@ export default function Home() {
       <ParticleField />
 
       <div className="relative z-10">
-        <Hero />
-        <Experience />
-        <Skills />
-        <Projects />
+        <ScrollFade>
+          <Hero />
+        </ScrollFade>
+        <SlideIn from="left">
+          <Experience />
+        </SlideIn>
+        <SlideIn from="right">
+          <Projects />
+        </SlideIn>
         <Footer />
       </div>
     </main>

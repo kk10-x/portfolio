@@ -6,7 +6,7 @@ export async function Projects() {
   const repos = await getFeaturedRepos();
 
   return (
-    <section className="max-w-3xl mx-auto px-6 py-12">
+    <section className="mx-auto flex min-h-[100svh] w-full max-w-3xl flex-col justify-center px-6 py-16">
       <Reveal>
         <h2 className="text-sm font-mono text-neutral-500 dark:text-neutral-400 mb-4 uppercase tracking-wide">
           Projects

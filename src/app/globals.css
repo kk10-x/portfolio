@@ -26,6 +26,36 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Scale the whole layout up on high-res displays. Tailwind sizes, spacing,
+   and max-widths are all rem-based, so raising the root font size grows
+   text, cards, and section widths proportionally instead of leaving the
+   content marooned in whitespace. */
+@media (min-width: 2000px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 2400px) {
+  html {
+    font-size: 20px;
+  }
+}
+
+/* Soft ambient color wash so light mode doesn't read as flat white.
+   Dark mode stays plain black — the blobs/particles already carry it there. */
+body {
+  background-image:
+    radial-gradient(1100px circle at 12% -10%, rgba(99, 102, 241, 0.12), transparent 55%),
+    radial-gradient(1000px circle at 100% 15%, rgba(217, 70, 239, 0.10), transparent 50%),
+    radial-gradient(900px circle at 15% 100%, rgba(6, 182, 212, 0.10), transparent 45%);
+  background-attachment: fixed;
+}
+
+.dark body {
+  background-image: none;
+}
+
 /* Visible keyboard focus in the accent color */
 a:focus-visible,
 button:focus-visible {
@@ -34,17 +64,21 @@ button:focus-visible {
   border-radius: 6px;
 }
 
-/* Animated gradient blobs behind the content */
+/* Animated gradient blobs behind the content.
+   Multiply against the light background so colors stay rich instead of
+   washing out to pastel; screen against dark so they glow instead of muddying. */
 .blob {
   position: absolute;
   border-radius: 9999px;
   filter: blur(70px);
-  opacity: 0.45;
+  opacity: 0.6;
+  mix-blend-mode: multiply;
   will-change: transform;
 }
 
 .dark .blob {
   opacity: 0.3;
+  mix-blend-mode: screen;
 }
 
 @keyframes blob-float-a {
@@ -83,9 +117,20 @@ button:focus-visible {
   100% { background-position: 0% 50%; }
 }
 
+/* Gentle levitation for the hero terminal card */
+.terminal-float {
+  animation: terminal-float 7s ease-in-out infinite;
+}
+
+@keyframes terminal-float {
+  0%, 100% { transform: translateY(0) rotate(-0.5deg); }
+  50% { transform: translateY(-12px) rotate(0.5deg); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .blob,
-  .gradient-text {
+  .gradient-text,
+  .terminal-float {
     animation: none !important;
   }
 }
