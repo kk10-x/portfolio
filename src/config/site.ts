@@ -11,6 +11,7 @@ export const siteConfig = {
   tagline:
     "Full-stack engineer — Python, TypeScript, React, and distributed systems.",
   bio: "Full-stack engineer with 3+ years across backend services, media pipelines, and the frontends that sit on top of them. Currently at Razorpay working on enterprise payment integrations; before that I built failover recovery and media processing systems at Dish Network Technologies. This site pulls its project list straight from my GitHub.",
+  url: "https://portfolio-rho-blue-18.vercel.app",
   github: "kk10-x",
   email: "khrithik.work@gmail.com",
   linkedin: "https://www.linkedin.com/in/khrithik-s-anand/",
