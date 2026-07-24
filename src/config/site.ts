@@ -66,5 +66,5 @@ export const siteConfig = {
   minPushedAt: "2025-01-01",
   // Repo names to always show first, in this order, regardless of recency/stars.
   // Leave empty to just sort by most recently updated.
-  featuredRepos: [] as string[],
+  featuredRepos: ["benefitsgraph"] as string[],
 };

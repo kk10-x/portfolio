@@ -6,8 +6,13 @@ import type { Repo } from "@/lib/github";
 import { languageColor } from "@/lib/languageColors";
 
 export function ProjectCard({ repo, index }: { repo: Repo; index: number }) {
-  const cardRef = useRef<HTMLAnchorElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const [spotlight, setSpotlight] = useState({ x: 0, y: 0, visible: false });
+
+  // A repo with a homepage has something running you can actually click.
+  const liveUrl = repo.homepage?.trim() || null;
+  // The card's primary target: the live demo when there is one, else the source.
+  const primaryUrl = liveUrl ?? repo.html_url;
 
   // 3D tilt driven by cursor position over the card
   const mouseX = useMotionValue(0.5);
@@ -21,7 +26,7 @@ export function ProjectCard({ repo, index }: { repo: Repo; index: number }) {
     damping: 20,
   });
 
-  function handleMouseMove(e: React.MouseEvent<HTMLAnchorElement>) {
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
     const rect = cardRef.current?.getBoundingClientRect();
     if (!rect) return;
     const x = e.clientX - rect.left;
@@ -38,11 +43,8 @@ export function ProjectCard({ repo, index }: { repo: Repo; index: number }) {
   }
 
   return (
-    <motion.a
+    <motion.div
       ref={cardRef}
-      href={repo.homepage || repo.html_url}
-      target="_blank"
-      rel="noreferrer"
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
@@ -67,11 +69,29 @@ export function ProjectCard({ repo, index }: { repo: Repo; index: number }) {
       <div className="relative">
         <div className="flex items-start justify-between gap-3">
           <h3 className="font-semibold text-neutral-900 dark:text-neutral-50">
-            {repo.name}
+            {/* Stretched link: keeps the whole card clickable while still allowing
+                a separate source link below (nested anchors would be invalid HTML). */}
+            <a
+              href={primaryUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="after:absolute after:inset-0 after:content-[''] rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fuchsia-400"
+            >
+              {repo.name}
+            </a>
           </h3>
-          <span className="shrink-0 text-neutral-400 group-hover:text-fuchsia-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300">
-            ↗
-          </span>
+
+          <div className="flex shrink-0 items-center gap-2">
+            {liveUrl && (
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/40 bg-emerald-400/10 px-2 py-0.5 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400" />
+                Live
+              </span>
+            )}
+            <span className="text-neutral-400 group-hover:text-fuchsia-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300">
+              ↗
+            </span>
+          </div>
         </div>
 
         <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2 leading-relaxed">
@@ -110,8 +130,21 @@ export function ProjectCard({ repo, index }: { repo: Repo; index: number }) {
               ★ {repo.stargazers_count}
             </span>
           )}
+
+          {/* When the card points at a live demo, keep the source one click away.
+              z-10 lifts it above the stretched link's overlay. */}
+          {liveUrl && (
+            <a
+              href={repo.html_url}
+              target="_blank"
+              rel="noreferrer"
+              className="relative z-10 ml-auto rounded text-neutral-500 hover:text-fuchsia-500 dark:text-neutral-400 dark:hover:text-fuchsia-400 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fuchsia-400"
+            >
+              Source ↗
+            </a>
+          )}
         </div>
       </div>
-    </motion.a>
+    </motion.div>
   );
 }
