@@ -1,10 +1,18 @@
 "use client";
 
+let animTimer: ReturnType<typeof setTimeout> | undefined;
+
 export function ThemeToggle() {
   function toggle() {
-    const next = !document.documentElement.classList.contains("dark");
-    document.documentElement.classList.toggle("dark", next);
+    const root = document.documentElement;
+    const next = !root.classList.contains("dark");
+    // Enable the color crossfade only for the duration of the swap, so it never
+    // slows unrelated hover/interaction transitions.
+    root.classList.add("theme-anim");
+    root.classList.toggle("dark", next);
     localStorage.setItem("theme", next ? "dark" : "light");
+    clearTimeout(animTimer);
+    animTimer = setTimeout(() => root.classList.remove("theme-anim"), 550);
   }
 
   return (

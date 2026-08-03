@@ -56,6 +56,15 @@ body {
   background-image: none;
 }
 
+/* Crossfade colors during a light/dark swap only. ThemeToggle adds `theme-anim`
+   to <html> for the duration of the swap, so these 500ms transitions apply to the
+   switch itself but never slow other interactions. Disabled under reduced-motion. */
+html.theme-anim,
+html.theme-anim * {
+  transition: background-color 500ms ease, color 500ms ease, border-color 500ms ease,
+    fill 500ms ease, stroke 500ms ease;
+}
+
 /* Visible keyboard focus in the accent color */
 a:focus-visible,
 button:focus-visible {
@@ -132,5 +141,9 @@ button:focus-visible {
   .gradient-text,
   .terminal-float {
     animation: none !important;
+  }
+  html.theme-anim,
+  html.theme-anim * {
+    transition: none !important;
   }
 }
