@@ -61,7 +61,7 @@ export const siteConfig = {
     period: "2018 — 2022",
   },
   // GitHub repo names to exclude from the live feed (forks, configs, this portfolio itself, etc.)
-  excludedRepos: ["portfolio", "kk10-x", "kk10-x.github.io", "temp", "ElevenLabs", "written-in-the-stars"],
+  excludedRepos: ["portfolio", "kk10-x", "kk10-x.github.io", "temp", "ElevenLabs", "you-GOT-a-letter"],
   // Hide anything not pushed since this date (filters out old college lab repos)
   minPushedAt: "2025-01-01",
   // Repo names to always show first, in this order, regardless of recency/stars.
