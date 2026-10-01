@@ -4,7 +4,7 @@
 
 > This replaced the earlier Next.js portfolio. The old version is kept on the [`legacy-nextjs`](https://github.com/kk10-x/portfolio/tree/legacy-nextjs) branch.
 
-A scroll-driven WebGL portfolio. You click to enter, then fly through a particle universe: eight highlights, each its own constellation shaped to say something about what the project does, and all 16 of my projects one click away.
+A scroll-driven WebGL portfolio. You click to enter, then fly through a particle universe: eight highlights, each its own constellation shaped to say something about what the project does, and every other public project one click away.
 
 ![Opening scene: a swirling blue nebula behind the headline](assets/hero.jpg)
 
@@ -28,12 +28,14 @@ The visual language follows the Razorpay Vulcan launch page (a dark particle sce
 ## How it works
 
 - **One scene, seven stops.** A single canvas stays pinned behind the page. The page is seven sections (hero, intro, numbers, experience, projects, skills, contact). Scroll position picks the section and how far through it you are, and the camera flies along a path built from one pose per section.
-- **Stepped scrolling.** The page has a fixed list of stops (the hero, each statement, the numbers, each job, each of the 16 projects, the toolkit, the contact screen). One wheel spin, trackpad flick, swipe or key press moves exactly one stop, however hard it is. A fast spin or a coasting trackpad is one gesture: the first event steps, the rest of that stream is ignored until there is a pause ([`src/snap.ts`](src/snap.ts), with tests). Click anywhere on the opening screen to enter. A refresh always starts back at the top behind the opening screen, rather than restoring the old scroll position.
-- **The projects tour.** Eight constellations (the first eight entries of `projects`, see `TOUR_SIZE`) sit along that path, 20 units apart. It was sixteen at first, but nobody scrolls that far. Between stops the camera dwells on each constellation long enough to read its card, then travels to the next. The active constellation glows and the rest dim.
-- **The overview.** After the 16th project the camera flies into a tunnel of rings. Five projects at a time drift toward the camera along its walls, each with a label, fading out as new ones arrive from the far end, until all 16 have had a turn (sixteen at once was too cluttered). Hovering one pauses the whole set, so it is easy to click; it glows and swells; click the shape or its label to open that project in a new tab (the live demo if there is one, otherwise the source on GitHub). Labels are real links, so they work with the keyboard and with a tap on a phone. Hit testing projects each shape to the screen and picks the closest one ([`src/pick.ts`](src/pick.ts), with tests).
+- **Stepped scrolling.** The page has a fixed list of stops (the hero, each statement, the numbers, each job, each project in the tour, the toolkit, the contact screen). One wheel spin, trackpad flick, swipe or key press moves exactly one stop, however hard it is. A fast spin or a coasting trackpad is one gesture: the first event steps, the rest of that stream is ignored until there is a pause ([`src/snap.ts`](src/snap.ts), with tests). Click anywhere on the opening screen to enter. A refresh always starts back at the top behind the opening screen, rather than restoring the old scroll position.
+- **The projects tour.** Eight constellations (the first eight entries of `curated`, see `TOUR_SIZE`) sit along that path, 20 units apart. It was sixteen at first, but nobody scrolls that far. Between stops the camera dwells on each constellation long enough to read its card, then travels to the next. The active constellation glows and the rest dim.
+- **The overview.** After the last tour project the camera flies into a tunnel of rings. Five projects at a time drift toward the camera along its walls, each with a label, fading out as new ones arrive from the far end, until all of them have had a turn (showing them all at once was too cluttered). Hovering one pauses the whole set, so it is easy to click; it glows and swells; click the shape or its label to open that project in a new tab (the live demo if there is one, otherwise the source on GitHub). Labels are real links, so they work with the keyboard and with a tap on a phone. Hit testing projects each shape to the screen and picks the closest one ([`src/pick.ts`](src/pick.ts), with tests).
 - **Shapes that mean something.** Each project has its own generator in [`src/shapes.ts`](src/shapes.ts). Payments Flow is three lanes streaming through one gate. Celery Triage is scattered failures gathered into a few clusters. Polyscribe is a live waveform. Dub QC is a timeline with ad breaks as tall ticks. Edge Personalization Router is a tree. Four motions (still, flow, wave, swirl) run in the vertex shader, so a thousand-point shape costs nothing on the CPU.
-- **Everything still fits.** The scroll tour is the short highlights reel. The overview rotates through all 16, and the **All projects** button opens an index of all 16 with category filters. Tiles for the eight tour projects jump to their place in the tour. Every project also has a deep link such as `#payments-flow`.
-- **Hidden on purpose.** The tour lists the 16 public, recent repos. This site, forks, private repos, college lab work and scratch repos are excluded. [`tests/data.test.ts`](tests/data.test.ts) fails if a hidden repo sneaks in.
+- **Everything still fits.** The scroll tour is the short highlights reel. The overview rotates through every project, and the **All projects** button opens an index of all of them with category filters. Tiles for the eight tour projects jump to their place in the tour. Every project also has a deep link such as `#payments-flow`.
+- **Live from GitHub.** When the page loads it asks GitHub for the public repos and builds the list from the answer, so a new repo appears without a redeploy. It is asked at most once an hour per visitor (the answer is cached in the browser). Forks, private and archived repos are skipped, as is anything on the exclude list or not pushed since a cutoff date, which keeps old college repos out. Both live in [`src/data/feed-config.ts`](src/data/feed-config.ts).
+- **If GitHub is slow, down or rate-limited,** the site uses the last cached answer, then a snapshot saved at build time (`npm run snapshot`, run on every build), then the hand-written list. It never shows an empty page. Logic is in [`src/data/feed.ts`](src/data/feed.ts) and [`src/data/live.ts`](src/data/live.ts), and covered by tests.
+- **Hand-written or generated text.** A repo with an entry in [`src/data/projects.ts`](src/data/projects.ts) uses that copy and its own 3D shape. Any other repo gets a title from its name, a blurb from its GitHub description, tags from its topics, a guessed category and a shape picked from its name, so it looks fine without any work and can be polished later.
 - **Still works without the fancy bits.** With no WebGL, the page drops the scene and shows every project as a plain card grid. With `prefers-reduced-motion`, scrolling jumps instead of gliding, the camera parallax and slow spins are off, and the camera cuts instead of flying. With no WebGL, scrolling is the browser's own. The gate and the index are keyboard accessible (Enter or Space to enter, Escape to close the index, arrow keys, Page Up and Down, Space or `j` and `k` to step, Home and End to jump to the ends).
 
 ## Setup
@@ -49,16 +51,19 @@ npm run dev        # http://localhost:5173
 npm test           # data integrity and shape generators
 npm run lint       # tsc --noEmit
 npm run build      # static site in dist/ (relative paths, works from any URL or sub-path)
-npm run check:projects   # compare the tour with what is actually public on GitHub
+npm run check:projects   # which repos have hand-written copy, and which entries no longer match GitHub
+npm run snapshot         # refresh the saved fallback copy of the repo list (also runs on every build)
 ```
 
 ### Adding a project
 
-Add an entry to `projects` in [`src/data/projects.ts`](src/data/projects.ts) with a title, one-line blurb, tags, a category, a shape and a caption. The section height, counter, ticks, index and filters are all derived from the array. Pick a shape no other project uses (the tests require each shape to be unique), or write a new generator in `shapes.ts`. To choose who is in the scroll tour, reorder the array: the first `TOUR_SIZE` entries are the tour, the rest appear in the overview and the index. `npm run check:projects` lists public repos that are not in the list at all yet.
+A new public repo shows up on its own. To write its copy by hand, add an entry to `curated` in [`src/data/projects.ts`](src/data/projects.ts) with a title, one-line blurb, tags, a category, a shape and a caption. To choose who is in the scroll tour, reorder `curated`: the first `TOUR_SIZE` entries are the tour, and the rest appear in the overview and the index. To hide a repo, add its name to `excludedRepos` in `feed-config.ts`. `npm run check:projects` shows which repos have hand-written copy.
 
 ## Limitations
 
-- The project list is curated by hand, not pulled live from GitHub. That keeps the copy tight, but it means `check:projects` has to be run to notice new repos.
+- The list comes from the browser asking GitHub directly. The API allows 60 requests an hour per IP address, so many visitors behind one office network can hit the limit. They then get the build-time snapshot, which is current as of the last deploy.
+- A repo that has no hand-written entry gets plainer text and a shape chosen by its name. Its category is a keyword guess from its topics and description, so it can be wrong until you write an entry.
+- The scroll tour is fixed to the hand-written order; new repos join the overview and the index, not the tour.
 - Particle counts are tuned for a mid-range laptop. About 26,000 points exist in the scene, and it has not been profiled on low-end phones.
 - Live demo links point at a home server (reachable over Tailscale Funnel) and a few GitHub Pages sites. If the home server is offline those links won't load.
 - Fonts load from Google Fonts. Offline, it falls back to system serif and sans-serif.

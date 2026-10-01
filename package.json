@@ -6,7 +6,8 @@
   "description": "A scroll-driven WebGL portfolio: every project is a particle constellation you fly through.",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node scripts/snapshot-github.mjs && vite build",
+    "snapshot": "node scripts/snapshot-github.mjs",
     "preview": "vite preview",
     "lint": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts",

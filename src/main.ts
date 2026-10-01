@@ -26,7 +26,12 @@ function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: 
 
 // ---- static content from data ---------------------------------------------------------------
 $("numbers").replaceChildren(
-  ...profile.stats.map((s) => {
+  // the last number is the project count, which comes from GitHub, so it is worked out here rather than written down
+  ...profile.stats.map((s, i, all) =>
+    i === all.length - 1
+      ? { value: String(NA), label: `public projects on GitHub. ${N} in the tour, all ${NA} in the overview.` }
+      : s,
+  ).map((s) => {
     const li = el("li");
     li.append(el("span", "v", s.value), el("span", "l", s.label));
     return li;
@@ -140,6 +145,7 @@ function fillCard(p: Project) {
   $("card-blurb").textContent = p.blurb;
   $("card-tags").replaceChildren(...p.tags.map((t) => el("li", undefined, t)));
   $("card-caption").textContent = p.caption;
+  $("card-caption").hidden = !p.caption; // generated entries have no caption
   const live = $<HTMLAnchorElement>("card-live");
   if (p.live) {
     live.href = p.live;

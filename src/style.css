@@ -779,3 +779,17 @@ body:not(.locked) .rise,
     padding: 0.6rem 0.9rem;
   }
 }
+
+/* The opening screen shows at once; its prompt appears once the live project list and the scene are ready. */
+#gate .enter {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s;
+}
+#gate.ready .enter {
+  opacity: 0.85;
+  pointer-events: auto;
+}
+#gate.ready .enter:hover {
+  opacity: 1;
+}

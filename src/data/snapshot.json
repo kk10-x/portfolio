@@ -1,0 +1,340 @@
+[
+  {
+    "name": "portfolio",
+    "description": "Personal portfolio: a scroll-driven WebGL tour (Three.js, Vite, TypeScript). Click to enter, fly through 8 highlight projects, and open all 16 from the overview.",
+    "homepage": "https://portfolio-rho-blue-18.vercel.app",
+    "language": "TypeScript",
+    "topics": [
+      "portfolio",
+      "threejs",
+      "typescript",
+      "vite",
+      "webgl"
+    ],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-10-01T14:25:41Z"
+  },
+  {
+    "name": "payments-flow",
+    "description": "Mock payment gateway with health-scored provider routing, circuit breakers and idempotent retries (a lost response never double-charges), drawn as a live printed-ledger diagram.",
+    "homepage": "https://bella.taile86535.ts.net:10000/payments-flow/",
+    "language": "TypeScript",
+    "topics": [
+      "circuit-breaker",
+      "data-visualization",
+      "distributed-systems",
+      "idempotency",
+      "payments",
+      "typescript",
+      "websocket"
+    ],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-10-01T09:23:52Z"
+  },
+  {
+    "name": "vortex",
+    "description": "Scroll-driven Three.js tour of a real gateway and 3 worker processes: round-robin vs consistent-hash routing, node failure and retries, token-bucket rate limiting, all drawn from live request events.",
+    "homepage": "https://bella.taile86535.ts.net:10000/vortex/",
+    "language": "TypeScript",
+    "topics": [
+      "consistent-hashing",
+      "data-visualization",
+      "distributed-systems",
+      "load-balancing",
+      "rate-limiting",
+      "threejs",
+      "typescript",
+      "websocket"
+    ],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-10-01T08:33:33Z"
+  },
+  {
+    "name": "celery-triage",
+    "description": "Groups failed Celery tasks by root cause (fingerprinted exception + traceback), not by timestamp — replay a whole cluster at once instead of retrying one task at a time.",
+    "homepage": "https://bella.taile86535.ts.net:10000/celery-triage/",
+    "language": "Python",
+    "topics": [
+      "celery",
+      "developer-tools",
+      "django",
+      "django-rest-framework",
+      "observability",
+      "react"
+    ],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-09-27T14:57:36Z"
+  },
+  {
+    "name": "discord-exporter",
+    "description": "Export your own Discord message history without adding a bot",
+    "homepage": null,
+    "language": "Python",
+    "topics": [],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-09-27T13:58:38Z"
+  },
+  {
+    "name": "dub-qc",
+    "description": "Broadcast-grade QC for AI dubs — flags dubbed lines that cross SCTE-35 ad breaks. C++ transport-stream parser + FastAPI + ElevenLabs Dubbing API.",
+    "homepage": "https://bella.taile86535.ts.net:10000/dub-qc/",
+    "language": "Python",
+    "topics": [
+      "broadcast",
+      "cpp",
+      "dubbing",
+      "elevenlabs",
+      "fastapi",
+      "ffmpeg",
+      "mpeg-ts",
+      "react",
+      "scte35",
+      "video"
+    ],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-08-10T17:40:15Z"
+  },
+  {
+    "name": "tagsmith",
+    "description": "A linter and A/B studio for ElevenLabs v3 audio tags — ESLint for your voice scripts.",
+    "homepage": "https://bella.taile86535.ts.net:10000/tagsmith/",
+    "language": "Python",
+    "topics": [
+      "developer-tools",
+      "elevenlabs",
+      "fastapi",
+      "linter",
+      "react",
+      "text-to-speech"
+    ],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-08-08T09:56:32Z"
+  },
+  {
+    "name": "polyscribe",
+    "description": "Realtime bilingual speech intelligence on ElevenLabs Scribe v2 Realtime — sub-second live captions with mid-sentence code-switching and live entity extraction, over an async two-hop WebSocket gateway.",
+    "homepage": "https://kk10-x.github.io/polyscribe/",
+    "language": "Python",
+    "topics": [
+      "asyncio",
+      "elevenlabs",
+      "fastapi",
+      "react",
+      "realtime",
+      "scribe",
+      "speech-to-text",
+      "voice-ai",
+      "websockets"
+    ],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-08-06T16:54:00Z"
+  },
+  {
+    "name": "elevenlabs-agent-qa-dashboard",
+    "description": "Catch tone, latency & tool-calling regressions in ElevenLabs voice agents over time — self-contained static demo (React + FastAPI).",
+    "homepage": "https://bella.taile86535.ts.net:10000/eleven-qa",
+    "language": "TypeScript",
+    "topics": [
+      "dashboard",
+      "elevenlabs",
+      "fastapi",
+      "observability",
+      "qa",
+      "react",
+      "typescript",
+      "voice-agents"
+    ],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-08-03T20:04:29Z"
+  },
+  {
+    "name": "inference-ledger",
+    "description": "OpenAI-compatible LLM gateway that keeps two independent token ledgers and reconciles them over Kafka, attributing every disagreement to a cause",
+    "homepage": "https://kk10-x.github.io/inference-ledger/",
+    "language": "Python",
+    "topics": [
+      "ai-infrastructure",
+      "distributed-systems",
+      "exactly-once",
+      "fastapi",
+      "idempotency",
+      "kafka",
+      "llm-inference",
+      "observability",
+      "reconciliation",
+      "redpanda"
+    ],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-08-03T19:49:51Z"
+  },
+  {
+    "name": "assetto-corsa-server",
+    "description": "Self-hosted Assetto Corsa dedicated server with a Discord control bot and playit.gg tunnel — start, stop, and reconfigure races from Discord, no port forwarding required.",
+    "homepage": null,
+    "language": "Shell",
+    "topics": [
+      "assetto-corsa",
+      "dedicated-server",
+      "discord-bot",
+      "docker",
+      "game-server",
+      "playit",
+      "self-hosted"
+    ],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-07-25T13:02:56Z"
+  },
+  {
+    "name": "dlq-pilot",
+    "description": "Triage RabbitMQ dead-letter queues by failure cause - fingerprint grouping, surgical rate-limited replay, zero-infra demo mode",
+    "homepage": "https://bella.taile86535.ts.net:8443",
+    "language": "Python",
+    "topics": [
+      "dead-letter-queue",
+      "fastapi",
+      "message-queue",
+      "observability",
+      "rabbitmq",
+      "react"
+    ],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-07-24T20:16:30Z"
+  },
+  {
+    "name": "benefitsgraph",
+    "description": "Employee health benefits eligibility & claims adjudication API — versioned policy rules engine, idempotent claims, multi-source integration (Node/TS, Postgres, Redis)",
+    "homepage": "https://bella.taile86535.ts.net",
+    "language": "TypeScript",
+    "topics": [
+      "api",
+      "docker",
+      "express",
+      "insurance",
+      "nodejs",
+      "postgresql",
+      "redis",
+      "typescript"
+    ],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-07-24T10:19:57Z"
+  },
+  {
+    "name": "edge-sentinel",
+    "description": "Stateful edge rate-limiting/bot-scoring demo built on Akamai EdgeWorkers + EdgeKV, with a live local dashboard",
+    "homepage": null,
+    "language": "JavaScript",
+    "topics": [
+      "akamai",
+      "bot-detection",
+      "edge-computing",
+      "edgeworkers",
+      "rate-limiting",
+      "react",
+      "websocket"
+    ],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-07-16T12:08:31Z"
+  },
+  {
+    "name": "temp",
+    "description": null,
+    "homepage": null,
+    "language": "C",
+    "topics": [],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-07-09T11:36:18Z"
+  },
+  {
+    "name": "edge-personalization-router",
+    "description": "An Akamai EdgeWorker that personalizes routing (region, device, A/B bucket) at the edge before a request hits origin, backed by EdgeKV.",
+    "homepage": null,
+    "language": "JavaScript",
+    "topics": [
+      "akamai",
+      "cdn",
+      "edge-computing",
+      "edgeworkers",
+      "react"
+    ],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-07-08T19:12:08Z"
+  },
+  {
+    "name": "meeting-digest",
+    "description": "Upload a meeting recording, get a local-Whisper transcript plus a Claude-generated summary with action items — no manual note-taking.",
+    "homepage": null,
+    "language": "CSS",
+    "topics": [
+      "claude-api",
+      "fastapi",
+      "llm",
+      "nextjs",
+      "speech-to-text",
+      "whisper"
+    ],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-07-08T16:39:35Z"
+  },
+  {
+    "name": "narrated",
+    "description": "Turns any article URL into a two-host podcast-style audio narration using Claude + ElevenLabs",
+    "homepage": null,
+    "language": "Python",
+    "topics": [
+      "anthropic",
+      "elevenlabs",
+      "fastapi",
+      "react",
+      "text-to-speech"
+    ],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-07-08T16:28:07Z"
+  },
+  {
+    "name": "ElevenLabs",
+    "description": "Full-stack text-to-speech app using the ElevenLabs API (FastAPI + React + ffmpeg)",
+    "homepage": null,
+    "language": "JavaScript",
+    "topics": [],
+    "fork": false,
+    "private": false,
+    "archived": false,
+    "pushed_at": "2026-07-02T16:53:14Z"
+  }
+]

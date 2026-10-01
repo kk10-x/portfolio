@@ -60,7 +60,7 @@ export const repoUrl = gh;
  * Tour order: newest and strongest first. Hidden on purpose (not listed): this portfolio, forks,
  * private repos, college lab work and scratch repos.
  */
-export const projects: Project[] = [
+export const curated: Project[] = [
   {
     repo: "vortex",
     title: "Vortex",
@@ -237,5 +237,37 @@ export const categoryById = (id: CategoryId) => categories.find((c) => c.id === 
 
 /** How many projects the scroll tour stops at. The rest are in the overview and the all-projects index. */
 export const TOUR_SIZE = 8;
-/** The scroll tour: the first TOUR_SIZE entries of `projects`. To change who is in it, reorder the array. */
+
+/** How each shape moves by default. Hand-written entries choose their own; generated ones use this. */
+export const SHAPE_MOTION: Record<ShapeId, Motion> = {
+  vortex: 3,
+  lanes: 1,
+  ledger: 0,
+  clusters: 0,
+  queue: 1,
+  graph: 0,
+  waveform: 2,
+  brackets: 0,
+  timeline: 1,
+  voices: 2,
+  chart: 0,
+  funnel: 1,
+  dome: 3,
+  tree: 0,
+  archive: 1,
+  track: 0,
+};
+
+/**
+ * The projects the site shows. They start as the hand-written `curated` list. When the page loads, live.ts asks
+ * GitHub for the current repos and replaces the contents of these two arrays in place, so every module that
+ * imports them sees the live list. The site's modules are only loaded after that (see boot.ts).
+ * The scroll tour is the first TOUR_SIZE entries.
+ */
+export const projects: Project[] = [...curated];
 export const tour: Project[] = projects.slice(0, TOUR_SIZE);
+
+export function setProjects(next: Project[]) {
+  projects.splice(0, projects.length, ...next);
+  tour.splice(0, tour.length, ...next.slice(0, TOUR_SIZE));
+}
