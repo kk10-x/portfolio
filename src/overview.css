@@ -1,0 +1,101 @@
+/* The overview: a ring tunnel with every project floating in it. Labels follow the shapes on screen. */
+.overview {
+  height: 160svh;
+}
+.ov-title {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s;
+  width: min(34rem, 80vw);
+}
+.ov-title h2 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(2.4rem, 5.4vw, 4.4rem);
+}
+.ov-title p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.ov-on .ov-title {
+  opacity: var(--ov, 1);
+}
+
+.ov-labels {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  visibility: hidden;
+}
+.ov-on .ov-labels {
+  visibility: visible;
+}
+.ov-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+  pointer-events: auto;
+  font: 600 0.64rem/1 var(--body);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone);
+  text-decoration: none;
+  padding: 0.38rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: rgba(5, 6, 10, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  will-change: transform, opacity;
+}
+.ov-label .swatch {
+  width: 6px;
+  height: 6px;
+  box-shadow: 0 0 6px var(--c);
+}
+.ov-label .go {
+  display: none;
+}
+.ov-label.hot,
+.ov-label:focus-visible {
+  background: var(--bone);
+  color: var(--bg);
+  border-color: var(--bone);
+  z-index: 2;
+}
+.ov-label.hot .go,
+.ov-label:focus-visible .go {
+  display: inline;
+}
+body.ov-hot {
+  cursor: pointer;
+}
+
+.no-gl .overview,
+.no-gl .ov-labels,
+.no-gl .ov-title {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .ov-title {
+    top: 24%;
+  }
+  .ov-label {
+    font-size: 0.56rem;
+    padding: 0.3rem 0.45rem;
+    letter-spacing: 0.1em;
+  }
+}

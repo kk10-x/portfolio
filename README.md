@@ -1,49 +1,68 @@
-# Portfolio
+# Portfolio v2
 
-Personal portfolio site for Khrithik S Anand — pulls project cards live from GitHub instead of a hardcoded list, so it stays current as repos are added.
+[![live](https://img.shields.io/badge/live-portfolio--rho--blue--18.vercel.app-2563ff)](https://portfolio-rho-blue-18.vercel.app)
 
-**Live:** https://portfolio-rho-blue-18.vercel.app
+> This replaced the earlier Next.js portfolio. The old version is kept on the [`legacy-nextjs`](https://github.com/kk10-x/portfolio/tree/legacy-nextjs) branch.
+
+A scroll-driven WebGL portfolio. You click to enter, then fly through a particle universe: eight highlights, each its own constellation shaped to say something about what the project does, and all 16 of my projects one click away.
+
+![Opening scene: a swirling blue nebula behind the headline](assets/hero.jpg)
+
+| Vortex, the first stop | PolyScribe, drawn as a live waveform |
+| --- | --- |
+| ![Vortex project card beside its swirling constellation](assets/vortex.jpg) | ![PolyScribe card beside a waveform made of particles](assets/polyscribe.jpg) |
+
+| All projects, filterable | Phone layout |
+| --- | --- |
+| ![The all-projects index with category filters](assets/index.jpg) | ![Project card as a bottom sheet under the constellation](assets/mobile.jpg) |
+
+The visual language follows the Razorpay Vulcan launch page (a dark particle scene driven by scroll, a "click to enter" gate, one statement per screen, a serif display face with a blue pill call to action). The content, the shapes, the interaction and the code are mine.
 
 ## Tech stack
 
-- Next.js 16 (App Router) + React 19 + TypeScript
-- Tailwind CSS 4
-- Framer Motion (scroll-triggered entrances, 3D card tilt, spotlight hover)
-- GitHub REST API (server-side fetch, revalidated hourly)
-- Deployed on Vercel
+- **Frontend:** Vite and TypeScript, [Three.js](https://threejs.org) with a custom point-sprite shader. No UI framework and no scroll library.
+- **Fonts:** Instrument Serif and Inter Tight (Google Fonts).
+- **Tests:** `node:test` through `tsx`.
+- **CI:** GitHub Actions: typecheck, tests, production build.
 
-## Architecture
+## How it works
 
-The site is a single static-ish page split into a few server components:
+- **One scene, seven stops.** A single canvas stays pinned behind the page. The page is seven sections (hero, intro, numbers, experience, projects, skills, contact). Scroll position picks the section and how far through it you are, and the camera flies along a path built from one pose per section.
+- **Stepped scrolling.** The page has a fixed list of stops (the hero, each statement, the numbers, each job, each of the 16 projects, the toolkit, the contact screen). One wheel spin, trackpad flick, swipe or key press moves exactly one stop, however hard it is. A fast spin or a coasting trackpad is one gesture: the first event steps, the rest of that stream is ignored until there is a pause ([`src/snap.ts`](src/snap.ts), with tests). Click anywhere on the opening screen to enter. A refresh always starts back at the top behind the opening screen, rather than restoring the old scroll position.
+- **The projects tour.** Eight constellations (the first eight entries of `projects`, see `TOUR_SIZE`) sit along that path, 20 units apart. It was sixteen at first, but nobody scrolls that far. Between stops the camera dwells on each constellation long enough to read its card, then travels to the next. The active constellation glows and the rest dim.
+- **The overview.** After the 16th project the camera flies into a tunnel of rings. Five projects at a time drift toward the camera along its walls, each with a label, fading out as new ones arrive from the far end, until all 16 have had a turn (sixteen at once was too cluttered). Hovering one pauses the whole set, so it is easy to click; it glows and swells; click the shape or its label to open that project in a new tab (the live demo if there is one, otherwise the source on GitHub). Labels are real links, so they work with the keyboard and with a tap on a phone. Hit testing projects each shape to the screen and picks the closest one ([`src/pick.ts`](src/pick.ts), with tests).
+- **Shapes that mean something.** Each project has its own generator in [`src/shapes.ts`](src/shapes.ts). Payments Flow is three lanes streaming through one gate. Celery Triage is scattered failures gathered into a few clusters. Polyscribe is a live waveform. Dub QC is a timeline with ad breaks as tall ticks. Edge Personalization Router is a tree. Four motions (still, flow, wave, swirl) run in the vertex shader, so a thousand-point shape costs nothing on the CPU.
+- **Everything still fits.** The scroll tour is the short highlights reel. The overview rotates through all 16, and the **All projects** button opens an index of all 16 with category filters. Tiles for the eight tour projects jump to their place in the tour. Every project also has a deep link such as `#payments-flow`.
+- **Hidden on purpose.** The tour lists the 16 public, recent repos. This site, forks, private repos, college lab work and scratch repos are excluded. [`tests/data.test.ts`](tests/data.test.ts) fails if a hidden repo sneaks in.
+- **Still works without the fancy bits.** With no WebGL, the page drops the scene and shows every project as a plain card grid. With `prefers-reduced-motion`, scrolling jumps instead of gliding, the camera parallax and slow spins are off, and the camera cuts instead of flying. With no WebGL, scrolling is the browser's own. The gate and the index are keyboard accessible (Enter or Space to enter, Escape to close the index, arrow keys, Page Up and Down, Space or `j` and `k` to step, Home and End to jump to the ends).
 
-- `src/config/site.ts` — all personal info (name, bio, skills, GitHub handle) in one place, plus curation knobs: `excludedRepos`, a `minPushedAt` cutoff date (hides old college repos), and an optional `featuredRepos` list to pin specific projects to the top.
-- `src/lib/github.ts` — fetches the GitHub user's repos server-side via `fetch(..., { next: { revalidate: 3600 } })`, filters out forks/excluded/stale repos, and sorts by stars (with any featured repos pinned first).
-- `src/components/` — `Hero`, `Experience` (includes skills), `Projects`, `Footer` are server components; `ProjectCard`, `ParticleField`, `SlideIn`/`ScrollFade` (scroll-linked transitions), `TerminalCard`, and `ThemeToggle` are the client components.
-- `src/app/icon.svg` + `src/app/opengraph-image.tsx` — gradient favicon and a generated OG image so shared links render a proper preview card.
+## Setup
 
-No backend or database — the GitHub API is the only external dependency, and Next.js's built-in ISR cache keeps it from being hit on every request. This was simpler than hand-maintaining a projects JSON file and keeps the site honest: what's shown is what's actually on GitHub.
-
-## Key features
-
-- Live project feed from the GitHub API — new repos show up automatically, no manual edits
-- Optional curation via `excludedRepos` / `featuredRepos` in `site.ts` if you want to hide noise or pin specific projects later
-- Manual dark/light toggle, persisted in localStorage, no flash on load
-- Apple-style scroll experience — full-viewport sections with scroll-linked slide/fade transitions
-- Zero backend — fully static-renderable aside from the revalidated GitHub fetch
-
-## Setup / run
+Requires Node 20 or newer.
 
 ```bash
 npm install
-npm run dev
+npm run dev        # http://localhost:5173
 ```
 
-Visit `http://localhost:3000`.
+```bash
+npm test           # data integrity and shape generators
+npm run lint       # tsc --noEmit
+npm run build      # static site in dist/ (relative paths, works from any URL or sub-path)
+npm run check:projects   # compare the tour with what is actually public on GitHub
+```
 
-To point this at a different GitHub account, edit `github` in `src/config/site.ts`.
+### Adding a project
 
-Optionally set `GITHUB_TOKEN` (see `.env.example`) to raise the GitHub API rate limit from 60 to 5000 requests/hour — not required for normal use thanks to the hourly cache.
+Add an entry to `projects` in [`src/data/projects.ts`](src/data/projects.ts) with a title, one-line blurb, tags, a category, a shape and a caption. The section height, counter, ticks, index and filters are all derived from the array. Pick a shape no other project uses (the tests require each shape to be unique), or write a new generator in `shapes.ts`. To choose who is in the scroll tour, reorder the array: the first `TOUR_SIZE` entries are the tour, the rest appear in the overview and the index. `npm run check:projects` lists public repos that are not in the list at all yet.
 
-## Deploy
+## Limitations
 
-Deployed on [Vercel](https://vercel.com/new), connected to this repo — pushes to `main` deploy automatically.
+- The project list is curated by hand, not pulled live from GitHub. That keeps the copy tight, but it means `check:projects` has to be run to notice new repos.
+- Particle counts are tuned for a mid-range laptop. About 26,000 points exist in the scene, and it has not been profiled on low-end phones.
+- Live demo links point at a home server (reachable over Tailscale Funnel) and a few GitHub Pages sites. If the home server is offline those links won't load.
+- Fonts load from Google Fonts. Offline, it falls back to system serif and sans-serif.
+
+## Why I built this
+
+My previous portfolio listed only 8 of my projects and looked like every other portfolio. I wanted one where the work is the interface, and where all of it fits.

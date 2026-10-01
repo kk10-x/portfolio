@@ -1,0 +1,77 @@
+/* Phone fixes, and the fade for the pinned project card. Selectors start with `body` so they always beat style.css. */
+body .pin {
+  transition: opacity 0.5s ease;
+}
+body .pin.off {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* The all-projects index. A full-screen blur over a moving WebGL canvas made scrolling it laggy, so it is a
+   near-opaque panel instead (the scene is also paused while it is open). */
+body .index {
+  background: rgba(5, 6, 10, 0.97);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  overscroll-behavior: contain;
+}
+body.index-open .ov-labels,
+body.index-open .ov-title {
+  visibility: hidden;
+}
+
+/* Text that sits over bright particles gets a soft dark halo so it never blends into the scene. */
+body .contact .copy {
+  text-shadow: 0 0 22px rgba(5, 6, 10, 0.95), 0 0 6px rgba(5, 6, 10, 0.8);
+}
+
+@media (max-width: 760px) {
+  /* The numbers fit on one screen: two columns instead of four stacked rows. */
+  body .stats {
+    min-height: 100svh;
+  }
+  body .stats h2 {
+    font-size: 2.4rem;
+    margin-bottom: 0.3rem;
+  }
+  body .numbers {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.3rem 1rem;
+    margin-top: 1.3rem;
+  }
+  body .numbers li {
+    padding-top: 0.7rem;
+  }
+  body .numbers .v {
+    font-size: 2.7rem;
+  }
+  body .numbers .l {
+    font-size: 0.8rem;
+    margin-top: 0.3rem;
+  }
+
+  /* The closing copy sits on a panel so the ring of particles behind it can't swallow the words. */
+  body .contact .copy {
+    margin: 0 1rem;
+    padding: 1.7rem 1.2rem;
+    background: rgba(5, 6, 10, 0.66);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  body .contact {
+    padding-top: 5.5rem;
+    padding-bottom: 4.5rem;
+  }
+  body .contact .copy h2 {
+    font-size: 2.3rem;
+  }
+  body .contact .copy p {
+    color: #e8e4da;
+    font-size: 1.02rem;
+  }
+  body .contact .actions {
+    gap: 0.5rem;
+  }
+}
