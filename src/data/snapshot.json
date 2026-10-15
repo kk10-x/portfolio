@@ -209,7 +209,7 @@
   {
     "name": "dlq-pilot",
     "description": "Triage RabbitMQ dead-letter queues by failure cause - fingerprint grouping, surgical rate-limited replay, zero-infra demo mode",
-    "homepage": "https://bella.taile86535.ts.net:8443",
+    "homepage": "https://bella.taile86535.ts.net:10000/dlq-pilot/",
     "language": "Python",
     "topics": [
       "dead-letter-queue",
@@ -227,7 +227,7 @@
   {
     "name": "benefitsgraph",
     "description": "Employee health benefits eligibility & claims adjudication API — versioned policy rules engine, idempotent claims, multi-source integration (Node/TS, Postgres, Redis)",
-    "homepage": "https://bella.taile86535.ts.net",
+    "homepage": "https://bella.taile86535.ts.net:10000/benefitsgraph/",
     "language": "TypeScript",
     "topics": [
       "api",

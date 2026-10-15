@@ -113,7 +113,7 @@ export const curated: Project[] = [
     tags: ["Python", "FastAPI", "RabbitMQ", "React"],
     shape: "queue",
     motion: 1,
-    live: "https://bella.taile86535.ts.net:8443",
+    live: "https://bella.taile86535.ts.net:10000/dlq-pilot/",
     caption: "A queue feeding a box, released in controlled batches.",
   },
   {
@@ -124,7 +124,7 @@ export const curated: Project[] = [
     tags: ["Node.js", "TypeScript", "PostgreSQL", "Redis"],
     shape: "graph",
     motion: 0,
-    live: "https://bella.taile86535.ts.net",
+    live: "https://bella.taile86535.ts.net:10000/benefitsgraph/",
     caption: "A graph of members, rules and claims.",
   },
   {
